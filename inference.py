@@ -1,6 +1,7 @@
 import torch
 from pathlib import Path
 import cv2
+import os 
 
 # Load the YOLOv5 model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
@@ -38,13 +39,8 @@ def process_video(video_path, output_path):
 
 def main():
     # Paths to your 4 videos
-    video_paths = [
-        "video1.mp4",
-        "video2.mp4",
-        "video3.mp4",
-        "video4.mp4"
-    ]
-    
+    video_paths = [i for i in os.listdir('videos')]
+
     # Output paths for processed videos
     output_paths = [
         "output_video1.mp4",
