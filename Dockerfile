@@ -4,10 +4,15 @@ FROM python:3.9-slim
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies including OpenGL libraries
+# Install system dependencies including OpenGL and GLib libraries
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libgl1-mesa-glx && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends \
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file
 COPY yolov5/requirements.txt .
