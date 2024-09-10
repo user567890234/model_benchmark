@@ -26,5 +26,8 @@ COPY yolov5 /app/yolov5
 # Copy the inference script
 COPY inference.py /app
 
+# Copy the videos folder from the model_benchmark repository
+COPY model_benchmark/videos /app/videos  # Ensure the videos folder is copied
+
 # Set the command to run the inference script
 CMD ["python", "inference.py"]
