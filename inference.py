@@ -38,16 +38,19 @@ def process_video(video_path, output_path):
     out.release()
 
 def main():
-    # Directory containing videos
-    video_dir = '/app/videos'  # Adjust the path to /app/videos
+    # Path to the 'videos' folder inside the container
+    video_dir = Path("/app/videos")
     
-    # List of video files in the directory
-    video_paths = [os.path.join(video_dir, i) for i in os.listdir(video_dir) if i.endswith('.mp4')]
-
+    # List video files from the 'videos' directory
+    video_paths = list(video_dir.glob("*.mp4"))  # Assuming .mp4 videos
+    
     # Output paths for processed videos
-    output_paths = [f"/app/output_video{i+1}.mp4" for i in range(len(video_paths))]  # Ensure output paths are also within /app
+    output_paths = [f"/app/output_video{i+1}.mp4" for i in range(len(video_paths))]
     
     for video_path, output_path in zip(video_paths, output_paths):
         print(f"Processing {video_path}...")
         process_video(video_path, output_path)
+        print(f"Saved processed video to {output_path}")
 
+if __name__ == "__main__":
+    main()
