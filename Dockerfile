@@ -12,16 +12,17 @@ RUN apt-get update && \
         libsm6 \
         libxext6 \
         libxrender-dev \
+        git \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements file
-COPY yolov5/requirements.txt .
-
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
-# Copy the YOLOv5 repo
-COPY yolov5 /app/yolov5
+# Clone YOLOv5 repository
+RUN git clone https://github.com/ultralytics/yolov5
+
+# Install YOLOv5 dependencies
+RUN pip install --no-cache-dir -r yolov5/requirements.txt
 
 # Copy the inference script
 COPY inference.py /app
