@@ -12,6 +12,10 @@ def process_video(video_path):
     if not cap.isOpened():
         print(f"Error opening video file {video_path}")
         return
+    
+    # Define the codec and create a VideoWriter object to save the output
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (int(cap.get(3)), int(cap.get(4))))
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -24,16 +28,12 @@ def process_video(video_path):
         # Render results on the frame
         frame = results.render()[0]
         
-        # Display the frame
-        cv2.imshow('Processed Frame', frame)
-        
-        # Break the loop if 'q' is pressed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        # Write the processed frame to the output video file
+        out.write(frame)
 
     # Release resources
     cap.release()
-    cv2.destroyAllWindows()
+    out.release()
 
 def main():
     # Path to the 'videos' folder inside the container
